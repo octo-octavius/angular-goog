@@ -1,0 +1,36 @@
+<form (ngSubmit)="onSubmit()" #f="ngForm">
+<!--="onSubmit(f)" -->
+  <div>
+    <input type="radio" id="male" name="gender" value="male"
+           checked ngModel required>
+    <label for="male">Male</label>
+  </div>
+  <div>
+    <input type="radio" id="female" name="gender" value="female" ngModel required>
+    <label for="female">Female</label>
+  </div>
+
+  <div>
+    <input type="radio" id="trans" name="gender" value="transgender" ngModel required>
+    <label for="trans">Trans</label>
+  </div>
+  <hr/>
+
+  <input type="text" id="email" name="email" placeholder="Enter your email" ngModel #emailref="ngModel" required email>
+  <label for="email">Email</label>
+  <span *ngIf="!emailref.valid && emailref.touched"> The name should be min 10 chars</span>
+  <hr/>
+
+  <div ngModelGroup="securityData">
+    <label for="secQuestion">Select a security question</label>
+    <select [(ngModel)]="defaultQuestion" name="securityQuestion" id="secQuestion">
+      <option value="father">What is your father's name? </option>
+      <option value="mother">What is your mothers's name? </option>
+      <option value="sister">What is your sister's name? </option>
+    </select>
+    <textarea ngModel name="securityAnswer"></textarea>
+  </div>
+
+  <input type="submit" value="Submit" id="submit-button" >
+
+</form>
