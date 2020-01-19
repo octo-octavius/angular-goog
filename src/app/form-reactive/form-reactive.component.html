@@ -1,0 +1,40 @@
+<form [formGroup]="myFormGroup" (ngSubmit)="onSubmit()">
+  <!--="onSubmit(f)" -->
+  <div>
+    <input type="radio" id="male1" formControlName="gender" value="male"
+           checked>
+    <label for="male1">Male</label>
+  </div>
+  <div>
+    <input type="radio" id="female1" formControlName="gender" value="female">
+    <label for="female1">Female</label>
+  </div>
+
+  <div>
+    <input type="radio" id="trans1" formControlName="gender" value="transgender">
+    <label for="trans1">Trans</label>
+  </div>
+  <hr/>
+
+  <input type="text" id="email1" formControlName="email" placeholder="Enter your email">
+  <label for="email1">Email</label>
+  <span *ngIf="!myFormGroup.get('email').valid && myFormGroup.get('email').touched"> The mail is required should be min 10 chars and not be [admin@gmail.com, admin1@gmail.com]</span>
+  --<hr/>
+  <hr/>
+
+  <div formGroupName="securityData">
+    <label for="secQuestion1">Select a security question</label>
+    <select formControlName="securityQuestion" id="secQuestion1">
+      <option value="father">What is your father's name? </option>
+      <option value="mother">What is your mothers's name? </option>
+      <option value="sister">What is your sister's name? </option>
+    </select>
+    <textarea formControlName="securityAnswer" id="secAnswer1"></textarea>
+  </div>
+  <div formArrayName="education">
+    <button (click)="addEduction()">Add education</button>
+    <input type="text" *ngFor="let edu of myFormGroup.get('education').controls; let i=index" [formControlName]="i">
+  </div>
+  <input type="submit" value="Submit" id="submit-button1" >
+
+</form>
