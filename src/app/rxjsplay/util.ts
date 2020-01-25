@@ -1,4 +1,5 @@
 import {Observable, Observer} from 'rxjs';
+import {fromPromise} from 'rxjs/internal-compatibility';
 
 const WORDS = [
   'SMELL',
@@ -9,12 +10,43 @@ const WORDS = [
   'BULB',
 ];
 
+export interface FavWord {
+  word: string;
+  meaning: string;
+}
+
+export function isValidFavWord(word: FavWord): boolean {
+  return word.meaning && word.word && word.meaning.trim().length !== 0 && word.meaning.trim().length !== 0;
+}
+
+export function upperCased(word: FavWord): FavWord {
+  console.log(word)
+  return {
+    word: word.word.toUpperCase(),
+    meaning: word.meaning.toUpperCase(),
+  };
+}
+
 export function createRandomWordObservable(): Observable<string> {
-  return new Observable( (observer: Observer<string>) => {
+  return new Observable((observer: Observer<string>) => {
     console.log('Observable created');
     setInterval(() => {
       const randIndex: number = Math.floor(Math.random() * WORDS.length);
       observer.next(WORDS[randIndex]);
     }, 1000);
   });
+}
+
+export function printVal(val: any) {
+  console.log(val);
+}
+
+export function postToFavWords(word: FavWord): Observable<any> {
+  return fromPromise(fetch('https://test-app-angular-4313d.firebaseio.com/fav-words.json', {
+    method: 'POST',
+    body: JSON.stringify(word),
+    headers: {
+      'content-type': 'application-json'
+    }
+  }));
 }
