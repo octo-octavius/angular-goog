@@ -1,0 +1,4 @@
+<p *ngFor="let server of serverStatuses">
+  {{server.name | uppercase}}
+  {{server.lastOnline | date: "mediumDate" | lowercase}}
+</p>
