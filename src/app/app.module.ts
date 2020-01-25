@@ -6,13 +6,15 @@ import {AppComponent} from './app.component';
 import {FormTemplateComponent} from './form-template/form-template.component';
 import {FormReactiveComponent} from './form-reactive/form-reactive.component';
 import { PipesComponent } from './pipes/pipes.component';
+import { RxjsplayComponent } from './rxjsplay/rxjsplay.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     FormTemplateComponent,
     FormReactiveComponent,
-    PipesComponent
+    PipesComponent,
+    RxjsplayComponent,
   ],
   imports: [
     BrowserModule,
