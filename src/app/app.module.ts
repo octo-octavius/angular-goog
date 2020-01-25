@@ -5,12 +5,14 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AppComponent} from './app.component';
 import {FormTemplateComponent} from './form-template/form-template.component';
 import {FormReactiveComponent} from './form-reactive/form-reactive.component';
+import { PipesComponent } from './pipes/pipes.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     FormTemplateComponent,
-    FormReactiveComponent
+    FormReactiveComponent,
+    PipesComponent
   ],
   imports: [
     BrowserModule,
