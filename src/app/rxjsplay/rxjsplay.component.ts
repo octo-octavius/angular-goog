@@ -1,7 +1,13 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {concat, fromEvent, interval, Observable, of, Subscription} from 'rxjs';
 import {isValidFavWord, postToFavWords, printVal, upperCased} from './util';
-import {concatMap, filter, map, tap, mergeMap, merge, throttle} from 'rxjs/operators';
+import {
+  concatMap,
+  debounceTime,
+  distinctUntilChanged,
+  filter,
+  map
+} from 'rxjs/operators';
 import {NgForm} from '@angular/forms';
 
 @Component({
@@ -12,6 +18,8 @@ import {NgForm} from '@angular/forms';
 export class RxjsplayComponent implements OnInit {
 
   @ViewChild('f', {static: true}) form: NgForm;
+  @ViewChild('searchBox', {static: true}) searchBox: ElementRef;
+
   private intervalObservable: Observable<number>;
   private eventObservable: Observable<Event>;
   private intervalSub: Subscription;
@@ -20,6 +28,8 @@ export class RxjsplayComponent implements OnInit {
   private uppercaseWords: Observable<string>;
   private firstArrayObservable: Observable<number>;
   private secondArrayObservable: Observable<number>;
+  private cancelableObservable: Observable<any>;
+
 
   constructor() {
     this.intervalObservable = interval(1000);
@@ -48,18 +58,44 @@ export class RxjsplayComponent implements OnInit {
     concat(this.firstArrayObservable, this.secondArrayObservable)
       .pipe(filter(val => val % 2 === 0)).subscribe(printVal);
 
+    // this.form.valueChanges.pipe(
+    //   filter(isValidFavWord),
+    //   map(upperCased),
+    //   throttle(() => interval(1000)),
+    //   mergeMap(changes => postToFavWords(changes))
+    // ).subscribe();
+    //
+    // this.form.valueChanges.pipe(
+    //   filter(isValidFavWord),
+    //   map(upperCased),
+    //   exhaustMap(changes => postToFavWords(changes))
+    // ).subscribe();
+
     this.form.valueChanges.pipe(
       filter(isValidFavWord),
       map(upperCased),
-      throttle(() => interval(1000)),
-      mergeMap(changes => postToFavWords(changes))
+      concatMap(changes => postToFavWords(changes))
     ).subscribe();
 
+    fromEvent(this.searchBox.nativeElement, 'keyup')
+      .pipe(
+        map((event: KeyboardEvent) => (event.target as HTMLInputElement).value),
+        debounceTime(1000), distinctUntilChanged()
+      )
+      .subscribe(printVal);
   }
 
   onSubmit() {
-    postToFavWords({word: 'haha', meaning: 'type of laughter'}).subscribe(res => console.log(res));
+    postToFavWords({
+      word: 'haha',
+      meaning: 'type of laughter'
+    }).subscribe(res => console.log(res));
   }
 
 
+  launchCancellableHttpObservable() {
+    // const sub = getFavWords().subscribe(printVal);
+    // sub.unsubscribe();
+    // getFavWords().pipe( debounceTime)
+  }
 }

@@ -20,7 +20,7 @@ export function isValidFavWord(word: FavWord): boolean {
 }
 
 export function upperCased(word: FavWord): FavWord {
-  console.log(word)
+  console.log(word);
   return {
     word: word.word.toUpperCase(),
     meaning: word.meaning.toUpperCase(),
@@ -48,5 +48,28 @@ export function postToFavWords(word: FavWord): Observable<any> {
     headers: {
       'content-type': 'application-json'
     }
+  }));
+}
+
+export function getFavWords() {
+  const abortController = new AbortController();
+  return new Observable((observer => {
+    fetch('https://test-app-angular-4313d.firebaseio.com/fav-words.json/', {
+      method: 'GET',
+      headers: {
+        'content-type': 'application-json'
+      },
+      signal: abortController.signal
+    }).then((val) => {
+      observer.next(val);
+    }).catch(err => {
+      observer.error(err);
+    }).finally(() => {
+      observer.complete();
+    });
+
+    return () => {
+      abortController.abort();
+    };
   }));
 }
