@@ -1,12 +1,18 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {concat, fromEvent, interval, Observable, of, Subscription} from 'rxjs';
-import {isValidFavWord, postToFavWords, printVal, upperCased} from './util';
 import {
-  concatMap,
+  createRandomWordObservable,
+  getFavWords,
+  postToFavWords,
+  printVal
+} from './util';
+import {
   debounceTime,
   distinctUntilChanged,
   filter,
-  map
+  map,
+  mergeMap,
+  switchMap
 } from 'rxjs/operators';
 import {NgForm} from '@angular/forms';
 
@@ -71,18 +77,28 @@ export class RxjsplayComponent implements OnInit {
     //   exhaustMap(changes => postToFavWords(changes))
     // ).subscribe();
 
-    this.form.valueChanges.pipe(
-      filter(isValidFavWord),
-      map(upperCased),
-      concatMap(changes => postToFavWords(changes))
-    ).subscribe();
+    //   this.form.valueChanges.pipe(
+    //     filter(isValidFavWord),
+    //     map(upperCased),
+    //     concatMap(changes => postToFavWords(changes))
+    //   ).subscribe();
+    //
+    //   fromEvent(this.searchBox.nativeElement, 'keyup')
+    //     .pipe(
+    //       map((event: KeyboardEvent) => (event.target as HTMLInputElement).value),
+    //       debounceTime(1000), distinctUntilChanged(),
+    //     )
+    //     .subscribe(printVal);
 
     fromEvent(this.searchBox.nativeElement, 'keyup')
       .pipe(
         map((event: KeyboardEvent) => (event.target as HTMLInputElement).value),
-        debounceTime(1000), distinctUntilChanged()
+        // debounceTime(1000), distinctUntilChanged(),
+        mergeMap( val => createRandomWordObservable())
       )
       .subscribe(printVal);
+
+
   }
 
   onSubmit() {
@@ -92,10 +108,8 @@ export class RxjsplayComponent implements OnInit {
     }).subscribe(res => console.log(res));
   }
 
-
   launchCancellableHttpObservable() {
-    // const sub = getFavWords().subscribe(printVal);
-    // sub.unsubscribe();
-    // getFavWords().pipe( debounceTime)
+    const sub = getFavWords().subscribe(printVal);
+    sub.unsubscribe();
   }
 }
