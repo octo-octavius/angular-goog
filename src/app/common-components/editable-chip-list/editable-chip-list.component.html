@@ -1,0 +1,10 @@
+<mat-chip-list aria-orientation="horizontal">
+  <mat-chip *ngFor="let item of listItems"
+            [disabled]="item.disabled"
+            [removable]="item.canRemove"
+            [selectable]="true"
+            [ngStyle]="item.color && {'background-color': item.color}">
+    <span>{{item.text}}</span>
+    <mat-icon matChipRemove *ngIf="item.canRemove">cancel</mat-icon>
+  </mat-chip>
+</mat-chip-list>
