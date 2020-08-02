@@ -1,0 +1,28 @@
+<ng-template #buttonContentTemplate>
+  <mat-icon
+  matBadge="{{badgeText}}"
+  matBadgeOverlap="true"
+  matBadgePosition="below after"
+  matBadgeSize="small"
+  >
+    favorite
+  </mat-icon>
+</ng-template>
+<button
+  mat-button
+  [ngClass]="{'selected' : selected}"
+  [attr.aria-label]="buttonText"
+  *ngIf="buttonText"
+  [matTooltip]="tooltipText"
+>
+  <ng-container *ngTemplateOutlet="buttonContentTemplate"></ng-container>
+  <span>{{buttonText}}</span>
+</button>
+<button
+        [ngClass]="{'selected' : selected}"
+        *ngIf="!buttonText"
+        mat-icon-button
+        [attr.aria-label]="buttonText"
+        [matTooltip]="tooltipText">
+  <ng-container *ngTemplateOutlet="buttonContentTemplate"></ng-container>
+</button>

@@ -1,0 +1,49 @@
+/** Style */
+button {
+  padding: 0 6px;
+  border-radius: 24px;
+}
+button span {
+  margin: 0 2px;
+}
+button mat-icon {
+  width: 24px;
+}
+button mat-icon span.mat-badge-content {
+  background-color: rgba(21, 105, 255, 1);
+  color: white;
+}
+
+/** Style on selected */
+button.selected {
+  background-color: rgba(26, 115, 232, 0.2);
+}
+button.selected span {
+  color: rgba(21, 105, 255, 1);
+}
+button.selected mat-icon {
+  color: rgba(21, 105, 255, 1);
+}
+
+/** Style on hover */
+button:hover {
+  transition: all 0.15s ease-out;
+  background-color: rgba(26, 115, 232, 0.1);
+}
+button:hover mat-icon {
+  color: rgba(26, 115, 232, 1);
+}
+button:hover span{
+  color: rgba(26, 115, 232, 1);
+}
+
+button:focus {
+  transition: all 0.15s ease-out;
+  background-color: rgba(26, 115, 232, 0.1);
+}
+button:focus mat-icon {
+  color: rgba(26, 115, 232, 1);
+}
+button:focus span{
+  color: rgba(26, 115, 232, 1);
+}

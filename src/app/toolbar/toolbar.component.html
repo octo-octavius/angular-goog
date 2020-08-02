@@ -1,0 +1,12 @@
+<mat-toolbar>
+  <mat-toolbar-row>
+    <app-toolbar-button *ngFor="let btn of buttons"
+                        [buttonText]="btn.buttonText"
+                        [selected]="btn.selected"
+                        [tooltipText]="btn.tooltipText"
+                        [guidedHelpId]="btn.guidedHelpId"
+                        [badgeText]="btn.badgeText"
+                        (click)="btn.click()"
+    ></app-toolbar-button>
+  </mat-toolbar-row>
+</mat-toolbar>
